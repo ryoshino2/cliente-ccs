@@ -23,4 +23,9 @@ public class ClienteController {
     public List<Cliente> listarClientes(){
         return clienteService.listarClientes();
     }
+
+    @GetMapping("/enviarParaOKafka")
+    public void enviarParaOKafka(){
+        clienteService.enviarParaOKafka();
+    }
 }
