@@ -6,10 +6,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.io.Serializable;
 import java.time.LocalDate;
 
 @Entity
-public class Cliente {
+public class Cliente implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -30,13 +31,15 @@ public class Cliente {
     public Cliente() {
     }
 
-    public Cliente(String nome, String endereco, Integer telefone, String email, Integer cpf, LocalDate dataAtualizacao) {
+    public Cliente(Long idCliente, String nome, String endereco, Integer telefone, String email, Integer cpf, LocalDate dataAtualizacao) {
+        this.idCliente = idCliente;
         this.nome = nome;
         this.endereco = endereco;
         this.telefone = telefone;
         this.email = email;
         this.cpf = cpf;
         this.dataAtualizacao = dataAtualizacao;
+        verificarSeExisteAtributoNulo();
     }
 
     public Long getIdCliente() {
@@ -107,4 +110,9 @@ public class Cliente {
                 '}';
     }
 
+    private void verificarSeExisteAtributoNulo() {
+        if (nome.equals("") || cpf.equals("") || endereco.equals("") || telefone.equals("") || email.equals("")) {
+            throw new NullPointerException("campo obrigatorio precisa ser preenchido");
+        }
+    }
 }
